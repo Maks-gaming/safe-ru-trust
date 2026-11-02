@@ -1,6 +1,28 @@
 Сертификаты Минцифры работают только на [сайтах из списка](https://github.com/Maks-gaming/safe-ru-trust/blob/main/domains.txt), остальной интернет корню Минцифры не доверяет.
 
-## Что скачать
+## Установка одной командой
+
+**Windows 10/11**, в PowerShell (сама запросит права администратора):
+
+```powershell
+irm https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/windows/get.ps1 | iex
+```
+
+**Linux.** Сначала нужен certutil: `sudo apt install libnss3-tools` (Fedora: `nss-tools`, Arch: `nss`).
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/unix/get.sh | sh
+```
+
+**macOS** (спросит пароль администратора):
+
+```sh
+curl -fsSL https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/unix/get.sh | sh
+```
+
+Команды сами скачают последний релиз и включат автообновление. После установки перезапусти браузер.
+
+## Файлами и другие системы
 
 | Система | Файл | Автообновление |
 |---|---|---|
@@ -13,15 +35,9 @@
 
 Ссылки в таблице сразу скачивают файл последнего релиза. Все файлы этого релиза есть в блоке **Assets** ниже.
 
-## Установка
+### Инструкции
 
-**Windows.** Одной строкой в PowerShell, сама скачает последний релиз и запросит права администратора:
-
-```powershell
-irm https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/windows/get.ps1 | iex
-```
-
-Или вручную: распакуй zip, запусти `install.bat`, разреши права администратора, перезапусти браузер. Установщик не подписан, поэтому Windows может предупредить о неизвестном издателе. Удаление: `uninstall.bat`.
+**Windows.** Распакуй zip, запусти `install.bat`, разреши права администратора, перезапусти браузер. Установщик не подписан, поэтому Windows может предупредить о неизвестном издателе. Удаление: `uninstall.bat`.
 
 **Linux.** Нужен certutil: `sudo apt install libnss3-tools` (Fedora: `nss-tools`, Arch: `nss`).
 
