@@ -9,9 +9,10 @@
     Invoke-WebRequest -UseBasicParsing 'https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-windows.zip' -OutFile "$d\w.zip"
     Expand-Archive "$d\w.zip" "$d\x"
     if (([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole('Administrators')) {
-      & powershell -NoProfile -ExecutionPolicy Bypass -File "$d\x\install.ps1"
+      $flag = if ($global:SrtUninstall) { '-Uninstall' } else { '' }
+      & powershell -NoProfile -ExecutionPolicy Bypass -Command "& '$d\x\install.ps1' $flag"
     } else {
-      Start-Process "$d\x\install.bat" -Verb RunAs -Wait
+      Start-Process "$d\x\$(if ($global:SrtUninstall) { 'uninstall.bat' } else { 'install.bat' })" -Verb RunAs -Wait
     }
   } finally { Remove-Item $d -Recurse -Force -ErrorAction SilentlyContinue }
 }

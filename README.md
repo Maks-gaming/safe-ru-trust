@@ -70,7 +70,6 @@ curl -fsSL https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download
 
 Распакуй zip и запусти `install.bat`. Windows спросит права администратора и может предупредить о неизвестном издателе: установщик не подписан. Перезапусти браузер.
 
-Удаление: `uninstall.bat` из той же папки.
 </details>
 
 <details>
@@ -82,9 +81,8 @@ mkdir srt && tar xzf safe-ru-trust-unix.tar.gz -C srt && cd srt
 ./safe-ru-trust.sh install
 ```
 
-Перезапусти браузер. `sudo` для самой установки не нужен: сертификаты ставятся в базы браузеров текущего пользователя, включая snap и flatpak. Обновление идёт через пользовательский таймер systemd. Новый профиль браузера подхватится при следующем обновлении.
+Перезапусти браузер. `sudo` для самой установки не нужен: сертификаты ставятся в базы браузеров текущего пользователя, включая форки Firefox, snap и flatpak. Обновление идёт через пользовательский таймер systemd. Новый профиль браузера подхватится при следующем обновлении.
 
-Удаление: `~/.local/share/safe-ru-trust/safe-ru-trust.sh uninstall`.
 
 Консольные программы (`curl`, `wget`) не покрыты: в их системное хранилище кросс-сертификат класть нельзя, он стал бы доверенным без ограничений.
 </details>
@@ -97,7 +95,6 @@ mkdir srt && tar xzf safe-ru-trust-unix.tar.gz -C srt && cd srt
 sudo ./safe-ru-trust.sh install
 ```
 
-Удаление: `sudo "/Library/Application Support/SafeRUTrust/safe-ru-trust.sh" uninstall`.
 </details>
 
 <details>
@@ -127,6 +124,26 @@ Android не даёт поставить промежуточный сертиф
 1. **Яндекс Браузер.** Сам доверяет сертификатам Минцифры, в систему ничего ставить не надо. Самый простой вариант.
 2. **Отдельный профиль.** Samsung Secure Folder (Knox) или рабочий профиль (например, через Shelter). Там можно поставить официальный корень Минцифры и держать только российские приложения. Корень работает без ограничений, но только внутри этого профиля, основной профиль его не видит.
 </details>
+
+## Удаление
+
+**Windows**, в PowerShell:
+
+```powershell
+irm https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/remove.ps1 | iex
+```
+
+**Linux и macOS:**
+
+```sh
+curl -fsSL https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/get.sh | sh -s uninstall
+```
+
+**iPhone, iPad.** «Настройки → Основные → VPN и управление устройством → Safe RU Trust → Удалить профиль».
+
+**ChromeOS.** «Настройки → Конфиденциальность → Управление сертификатами → Центры сертификации»: удали Safe RU Trust и Russian Trusted Root CA.
+
+**Android.** Если ставил официальный корень в отдельный профиль, удали его там или удали сам профиль.
 
 ## Как это устроено
 

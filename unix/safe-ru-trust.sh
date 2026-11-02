@@ -57,12 +57,9 @@ nss_dbs(){
   mkdir -p "$HOME/.pki/nssdb"
   [ -f "$HOME/.pki/nssdb/cert9.db" ] || certutil -N -d "sql:$HOME/.pki/nssdb" --empty-password
   echo "$HOME/.pki/nssdb"
-  local p
-  for p in "$HOME"/.mozilla/firefox/*/ "$HOME"/snap/firefox/common/.mozilla/firefox/*/ "$HOME"/.var/app/org.mozilla.firefox/.mozilla/firefox/*/ \
-           "$HOME"/snap/chromium/current/.pki/nssdb/ "$HOME"/.var/app/*/.pki/nssdb/; do
-    [ -f "${p}cert9.db" ] && echo "${p%/}"
-  done
-  return 0
+  # Firefox and its forks move profiles between versions, so look for the database itself.
+  find "$HOME/.mozilla" "$HOME/.config/mozilla" "$HOME/.librewolf" "$HOME/.config/librewolf" "$HOME/.zen" "$HOME/.floorp" "$HOME/.waterfox" \
+       "$HOME/snap" "$HOME/.var/app" -maxdepth 7 -name cert9.db -exec dirname {} \; 2>/dev/null || true
 }
 
 apply_certs(){ # root cross
@@ -141,12 +138,12 @@ schedule(){
 <key>RunAtLoad</key><true/>
 </dict></plist>
 EOF
-    launchctl unload "$PLIST" 2>/dev/null || true; launchctl load "$PLIST"
+    launchctl unload "$PLIST" 2>/dev/null || true; launchctl load "$PLIST"; echo "Daily updates enabled."
   elif command -v systemctl >/dev/null && systemctl --user show-environment >/dev/null 2>&1; then
     local u="$HOME/.config/systemd/user"; mkdir -p "$u"
     printf '[Unit]\nDescription=Safe RU Trust update\nWants=network-online.target\n[Service]\nType=oneshot\nExecStart=/usr/bin/env bash "%s/safe-ru-trust.sh" update\n' "$DIR" > "$u/safe-ru-trust.service"
     printf '[Unit]\nDescription=Daily Safe RU Trust update\n[Timer]\nOnCalendar=daily\nRandomizedDelaySec=4h\nPersistent=true\n[Install]\nWantedBy=timers.target\n' > "$u/safe-ru-trust.timer"
-    systemctl --user daemon-reload; systemctl --user enable --now safe-ru-trust.timer >/dev/null
+    systemctl --user daemon-reload; systemctl --user enable --now safe-ru-trust.timer >/dev/null; echo "Daily updates enabled."
   else
     echo "No systemd user session: add to cron yourself: 0 12 * * * bash \"$DIR/safe-ru-trust.sh\" update"
   fi
@@ -161,7 +158,7 @@ cmd_install(){
   cp "$HERE/safe-ru-trust.sh" "$HERE/signer.crt" "$HERE/upstream.crt" "$DIR/"
   sed -n 's/^serial=//p' "$HERE/manifest.txt" > "$DIR/serial.txt"
   schedule
-  echo "Installed, daily updates enabled. Restart your browser if it is open."
+  echo "Installed. Restart your browser if it is open."
 }
 
 cmd_uninstall(){
