@@ -1,6 +1,6 @@
 #!/bin/sh
 # One-line install of the latest release on Linux or macOS:
-# curl -fsSL https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/unix/get.sh | sh
+# curl -fsSL https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/get.sh | sh
 set -e
 # Wrapped in a function so the shell has read the whole script before anything can touch stdin.
 main() {

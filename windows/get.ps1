@@ -1,5 +1,5 @@
 # One-line install of the latest release (elevates itself):
-# irm https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/windows/get.ps1 | iex
+# irm https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/get.ps1 | iex
 & {
   $ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue'
   [Net.ServicePointManager]::SecurityProtocol = 'Tls12'

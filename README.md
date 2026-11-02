@@ -35,19 +35,19 @@ Safe RU Trust ставит вместо него свой корень, кото
 **Windows 10/11**, в PowerShell (сама запросит права администратора):
 
 ```powershell
-irm https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/windows/get.ps1 | iex
+irm https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/get.ps1 | iex
 ```
 
 **Linux**, без `sudo` (пароль спросит, только если надо доставить certutil):
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/unix/get.sh | sh
+curl -fsSL https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/get.sh | sh
 ```
 
 **macOS** (спросит пароль администратора):
 
 ```sh
-curl -fsSL https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/unix/get.sh | sh
+curl -fsSL https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/get.sh | sh
 ```
 
 Команды сами скачают последний релиз и включат автообновление. После установки перезапусти браузер.
