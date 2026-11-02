@@ -1,0 +1,23 @@
+name: release
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: ./build.sh "${GITHUB_REF_NAME#v}"
+      - run: |
+          mkdir out && cp windows/* dist/*.crt out/
+          (cd out && zip -q ../dist/safe-ru-trust-windows.zip *)
+      - uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: dist/*
+      - run: gh release create "$GITHUB_REF_NAME" dist/* --notes "Домены: см. domains.txt на этом теге. Проверка: README."
+        env:
+          GH_TOKEN: ${{ github.token }}
