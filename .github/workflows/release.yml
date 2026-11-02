@@ -18,6 +18,6 @@ jobs:
       - uses: actions/attest-build-provenance@v2
         with:
           subject-path: dist/*
-      - run: gh release create "$GITHUB_REF_NAME" dist/* --notes "Домены: см. domains.txt на этом теге. Проверка: README."
+      - run: gh release create "$GITHUB_REF_NAME" dist/* --notes "Список доменов в domains.txt на этом теге, проверка описана в README."
         env:
           GH_TOKEN: ${{ github.token }}
