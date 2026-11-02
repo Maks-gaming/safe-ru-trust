@@ -34,17 +34,23 @@ Safe RU Trust ставит вместо него свой корень, кото
 
 | Система | Что скачать | Автообновление |
 |---|---|---|
-| Windows 10/11 | `safe-ru-trust-windows.zip` | ✅ |
-| Linux | `safe-ru-trust-unix.tar.gz` | ✅ |
-| macOS | `safe-ru-trust-unix.tar.gz` | ✅ |
-| iPhone, iPad | `safe-ru-trust.mobileconfig` | ❌ |
-| ChromeOS | оба файла `.crt` | ❌ |
+| Windows 10/11 | [`safe-ru-trust-windows.zip`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-windows.zip) | ✅ |
+| Linux | [`safe-ru-trust-unix.tar.gz`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-unix.tar.gz) | ✅ |
+| macOS | [`safe-ru-trust-unix.tar.gz`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-unix.tar.gz) | ✅ |
+| iPhone, iPad | [`safe-ru-trust.mobileconfig`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust.mobileconfig) | ❌ |
+| ChromeOS | [`root.crt`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-root.crt) и [`cross.crt`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-cross.crt) | ❌ |
 | Android | Яндекс Браузер, см. ниже | ❌ |
 
 <details>
 <summary><b>Windows</b></summary>
 
-Распакуй zip и запусти `install.bat`. Windows спросит права администратора и может предупредить о неизвестном издателе: установщик не подписан. Перезапусти браузер.
+Одной строкой в PowerShell, сама скачает последний релиз и запросит права администратора:
+
+```powershell
+irm https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/windows/get.ps1 | iex
+```
+
+Или вручную: распакуй zip и запусти `install.bat`. Windows спросит права администратора и может предупредить о неизвестном издателе: установщик не подписан. Перезапусти браузер.
 
 Удаление: `uninstall.bat` из той же папки.
 </details>

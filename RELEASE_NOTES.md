@@ -4,18 +4,24 @@
 
 | Система | Файл | Автообновление |
 |---|---|---|
-| Windows 10/11 | `safe-ru-trust-windows.zip` | ✅ |
-| Linux | `safe-ru-trust-unix.tar.gz` | ✅ |
-| macOS | `safe-ru-trust-unix.tar.gz` | ✅ |
-| iPhone, iPad | `safe-ru-trust.mobileconfig` | ❌ |
-| ChromeOS | `safe-ru-trust-root.crt` и `safe-ru-trust-cross.crt` | ❌ |
+| Windows 10/11 | [`safe-ru-trust-windows.zip`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-windows.zip) | ✅ |
+| Linux | [`safe-ru-trust-unix.tar.gz`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-unix.tar.gz) | ✅ |
+| macOS | [`safe-ru-trust-unix.tar.gz`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-unix.tar.gz) | ✅ |
+| iPhone, iPad | [`safe-ru-trust.mobileconfig`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust.mobileconfig) | ❌ |
+| ChromeOS | [`safe-ru-trust-root.crt`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-root.crt) и [`safe-ru-trust-cross.crt`](https://github.com/Maks-gaming/safe-ru-trust/releases/latest/download/safe-ru-trust-cross.crt) | ❌ |
 | Android | ничего, см. ниже | ❌ |
 
-Файлы находятся в блоке **Assets** внизу этой страницы.
+Ссылки в таблице сразу скачивают файл последнего релиза. Все файлы этого релиза есть в блоке **Assets** ниже.
 
 ## Установка
 
-**Windows.** Распакуй zip, запусти `install.bat`, разреши права администратора, перезапусти браузер. Установщик не подписан, поэтому Windows может предупредить о неизвестном издателе. Удаление: `uninstall.bat`.
+**Windows.** Одной строкой в PowerShell, сама скачает последний релиз и запросит права администратора:
+
+```powershell
+irm https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/windows/get.ps1 | iex
+```
+
+Или вручную: распакуй zip, запусти `install.bat`, разреши права администратора, перезапусти браузер. Установщик не подписан, поэтому Windows может предупредить о неизвестном издателе. Удаление: `uninstall.bat`.
 
 **Linux.** Нужен certutil: `sudo apt install libnss3-tools` (Fedora: `nss-tools`, Arch: `nss`).
 
