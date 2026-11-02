@@ -38,7 +38,7 @@ Safe RU Trust ставит вместо него свой корень, кото
 irm https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/windows/get.ps1 | iex
 ```
 
-**Linux.** Сначала нужен certutil: `sudo apt install libnss3-tools` (Fedora: `nss-tools`, Arch: `nss`).
+**Linux**, без `sudo` (пароль спросит, только если надо доставить certutil):
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/Maks-gaming/safe-ru-trust/main/unix/get.sh | sh
