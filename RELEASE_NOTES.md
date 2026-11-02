@@ -4,12 +4,12 @@
 
 | Система | Файл | Автообновление |
 |---|---|---|
-| Windows 10/11 | `safe-ru-trust-windows.zip` | да |
-| Linux | `safe-ru-trust-unix.tar.gz` | да |
-| macOS | `safe-ru-trust-unix.tar.gz` | да |
-| iPhone, iPad | `safe-ru-trust.mobileconfig` | нет |
-| ChromeOS | `safe-ru-trust-root.crt` и `safe-ru-trust-cross.crt` | нет |
-| Android | ничего, см. ниже | нет |
+| Windows 10/11 | `safe-ru-trust-windows.zip` | ✅ |
+| Linux | `safe-ru-trust-unix.tar.gz` | ✅ |
+| macOS | `safe-ru-trust-unix.tar.gz` | ✅ |
+| iPhone, iPad | `safe-ru-trust.mobileconfig` | ❌ |
+| ChromeOS | `safe-ru-trust-root.crt` и `safe-ru-trust-cross.crt` | ❌ |
+| Android | ничего, см. ниже | ❌ |
 
 Файлы находятся в блоке **Assets** внизу этой страницы.
 
