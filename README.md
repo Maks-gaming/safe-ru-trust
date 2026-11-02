@@ -34,7 +34,7 @@
 
 ```
 ./verify.sh safe-ru-trust-root.crt safe-ru-trust-cross.crt
-gh attestation verify safe-ru-trust-root.crt --repo OWNER/safe-ru-trust
+gh attestation verify safe-ru-trust-root.crt --repo Maks-gaming/safe-ru-trust
 ```
 
 - `verify.sh` сверяет ограничения с `domains.txt` и что в кросс-сертификате ключ именно Минцифры.
