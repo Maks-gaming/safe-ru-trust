@@ -13,11 +13,14 @@ jobs:
       - uses: actions/checkout@v4
       - run: ./build.sh "${GITHUB_REF_NAME#v}"
       - run: |
-          mkdir out && cp windows/* dist/*.crt out/
-          (cd out && zip -q ../dist/safe-ru-trust-windows.zip *)
+          mkdir win nix
+          cp windows/* dist/*.crt dist/manifest.txt win/
+          cp unix/safe-ru-trust.sh dist/*.crt dist/manifest.txt nix/
+          (cd win && zip -q ../dist/safe-ru-trust-windows.zip *)
+          tar czf dist/safe-ru-trust-unix.tar.gz -C nix .
       - uses: actions/attest-build-provenance@v2
         with:
           subject-path: dist/*
-      - run: gh release create "$GITHUB_REF_NAME" dist/* --notes "Список доменов в domains.txt на этом теге, проверка описана в README."
+      - run: gh release create "$GITHUB_REF_NAME" dist/* --draft --title "$GITHUB_REF_NAME" --notes "Список доменов в domains.txt на этом теге, проверка описана в README."
         env:
           GH_TOKEN: ${{ github.token }}

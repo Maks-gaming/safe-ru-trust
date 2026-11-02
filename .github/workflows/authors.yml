@@ -1,0 +1,13 @@
+name: authors
+on: push
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - run: |
+          bad=$(git log --format='%h %ae %ce' | grep -v '77161824+Maks-gaming@users.noreply.github.com .*77161824+Maks-gaming@users.noreply.github.com' || true)
+          trailers=$(git log --format=%B | grep -iE '^(co-authored-by|claude-session):' || true)
+          if [ -n "$bad$trailers" ]; then echo "$bad"; echo "$trailers"; exit 1; fi

@@ -1,18 +1,32 @@
-# Запуск: install.bat (сам попросит права администратора). Удаление: uninstall.bat
+# Run via install.bat (asks for admin rights). Remove via uninstall.bat.
 param([switch]$Uninstall)
 $ErrorActionPreference = 'Stop'
-$mine = '^CN=Safe RU Trust '
-foreach ($s in 'Cert:\LocalMachine\Root','Cert:\LocalMachine\CA','Cert:\CurrentUser\CA') {
-  Get-ChildItem $s | Where-Object { $_.Subject -match $mine -or $_.Issuer -match $mine } | Remove-Item
-}
+. "$PSScriptRoot\common.ps1"
+$pf = "$env:ProgramFiles\SafeRUTrust"   # admin-only: this folder is executed as SYSTEM
 $ff = 'HKLM:\SOFTWARE\Policies\Mozilla\Firefox\Certificates'
+$task = 'SafeRUTrust update'
 if ($Uninstall) {
-  # ponytail: снимает значение, даже если его задал кто-то другой; отдельно не отслеживаем
+  Unregister-ScheduledTask $task -Confirm:$false -ErrorAction SilentlyContinue
+  Remove-Certs
+  Remove-Item $pf -Recurse -Force -ErrorAction SilentlyContinue
+  # ponytail: drops the value even if someone else set it; we do not track who did
   Remove-ItemProperty $ff -Name ImportEnterpriseRoots -ErrorAction SilentlyContinue
   'Removed.'; return
 }
-Import-Certificate "$PSScriptRoot\safe-ru-trust-root.crt" -CertStoreLocation Cert:\LocalMachine\Root | Out-Null
-Import-Certificate "$PSScriptRoot\safe-ru-trust-cross.crt" -CertStoreLocation Cert:\LocalMachine\CA | Out-Null
+$root = Read-Cert "$PSScriptRoot\safe-ru-trust-root.crt"
+Assert-Root $root
+Assert-Cross (Read-Cert "$PSScriptRoot\safe-ru-trust-cross.crt") $root (Read-Cert "$PSScriptRoot\upstream.crt")
+Install-Certs "$PSScriptRoot\safe-ru-trust-root.crt" "$PSScriptRoot\safe-ru-trust-cross.crt"
 New-Item $ff -Force | Out-Null
 Set-ItemProperty $ff -Name ImportEnterpriseRoots -Value 1 -Type DWord
-'Installed. Restart Firefox if it is open.'
+
+New-Item -ItemType Directory $pf -Force | Out-Null
+foreach ($f in 'common.ps1', 'update.ps1', 'signer.crt', 'upstream.crt') { Copy-Item "$PSScriptRoot\$f" "$pf\$f" -Force }
+$serial = (Get-Content "$PSScriptRoot\manifest.txt" | Where-Object { $_ -match '^serial=' }) -replace '^serial=', ''
+Set-Content "$pf\serial.txt" $serial.Trim() -Encoding ascii
+$a = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument "-NoProfile -NonInteractive -ExecutionPolicy Bypass -File `"$pf\update.ps1`""
+$t = New-ScheduledTaskTrigger -Daily -At 12:00 -RandomDelay (New-TimeSpan -Hours 4)
+$s = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -RunOnlyIfNetworkAvailable -ExecutionTimeLimit (New-TimeSpan -Minutes 5)
+$p = New-ScheduledTaskPrincipal -UserId 'NT AUTHORITY\SYSTEM' -LogonType ServiceAccount -RunLevel Highest
+Register-ScheduledTask $task -Action $a -Trigger $t -Settings $s -Principal $p -Force | Out-Null
+'Installed, daily updates enabled. Restart your browser if it is open.'
